@@ -1,4 +1,4 @@
-package com.example.pos_tpt_app
+package com.rahdeva.pos_tpt_app
 
 import io.flutter.embedding.android.FlutterActivity
 

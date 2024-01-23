@@ -40,7 +40,7 @@ class LoginPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: 30.w,
+                          width: 80.w,
                           decoration: BoxDecoration(
                             color: AppColors.white,
                             borderRadius: BorderRadius.circular(8),
@@ -127,7 +127,22 @@ class LoginPage extends StatelessWidget {
                                     controller.formKey.currentState != null &&
                                     controller.formKey.currentState!.saveAndValidate()
                                   ){
-                                    controller.signInWithEmailAndPassword(
+                                    controller.loginWithEmailAndPassword(
+                                      controller.formKey.currentState!.fields['email']!.value,
+                                      controller.formKey.currentState!.fields['password']!.value,
+                                    );
+                                  }
+                                },
+                              ),
+                              PrimaryButtonWidget(
+                                margin:  const EdgeInsets.all(0),
+                                buttonText: "Register", 
+                                onPressed: () async {
+                                  if (
+                                    controller.formKey.currentState != null &&
+                                    controller.formKey.currentState!.saveAndValidate()
+                                  ){
+                                    controller.registerWithEmailAndPassword(
                                       controller.formKey.currentState!.fields['email']!.value,
                                       controller.formKey.currentState!.fields['password']!.value,
                                     );

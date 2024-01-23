@@ -4,14 +4,19 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'data/local/storage/storage_constants.dart';
 import 'feature/auth/auth_controller.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 class Initializer {
   static Future<void> init() async {
     try {
+      await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+      );
       _initScreenPreference();
       await GetStorage.init(StorageName.STORAGE_NAME);
       await Get.putAsync<FlutterSecureStorage>(() async {
-        return FlutterSecureStorage();
+        return const FlutterSecureStorage();
       });
       Get.put<AuthController>(AuthController());
     } catch (err) {

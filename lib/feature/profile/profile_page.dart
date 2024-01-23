@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pos_tpt_app/utills/widget/button/primary_button.dart';
 import '/feature/profile/profile_controller.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -21,7 +22,14 @@ class ProfilePage extends StatelessWidget {
                   textAlign: TextAlign.left,
                   style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                 ),
-              )
+              ),
+              PrimaryButtonWidget(
+                margin: const EdgeInsets.all(0),
+                buttonText: "Logout", 
+                onPressed: () async {
+                  controller.logout();
+                },
+              ),
             ],
           ),
         ));
