@@ -49,7 +49,7 @@ class AuthController extends GetxController {
       await clearData();
       Get.offAllNamed(PageName.LOGIN);
     } else if (state?.appStatus == AppType.AUTHENTICATED) {
-      Get.offAllNamed(PageName.NAVTAB);
+      Get.offAllNamed(PageName.MAIN);
     } else {
       Get.toNamed(PageName.LOADER);
     }

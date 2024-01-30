@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pos_tpt_app/feature/history/history_controller.dart';
 import 'package:pos_tpt_app/resources/resources.dart';
 import 'package:pos_tpt_app/utills/helper/responsive.dart';
 import 'package:sizer/sizer.dart';
-import '/feature/home/home_controller.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HistoryPage extends StatelessWidget {
+  const HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(
+    return GetBuilder<HistoryController>(
       builder: (controller) {
         return SafeArea(
           child: Container(
@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 16, top: 24),
                     child: Text(
-                      "Home".tr,
+                      "History".tr,
                       textAlign: TextAlign.left,
                       style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                     ),

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import '/feature/bottom_nav_bar/nav_tab_controller.dart';
+import '../bottom_nav_bar/main_controller.dart';
 
 class HomeController extends GetxController {
-  final NavTabController navtabC = NavTabController.find;
+  final MainController mainC = MainController.find;
 }

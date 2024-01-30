@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '/feature/auth/auth_controller.dart';
 // import '/model/user.dart';
 
-class ProfileController extends GetxController {
+class SettingController extends GetxController {
   final AuthController authController = AuthController.find;
   FirebaseAuth auth = FirebaseAuth.instance;
 
