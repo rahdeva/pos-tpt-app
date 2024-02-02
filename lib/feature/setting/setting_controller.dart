@@ -1,17 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pos_tpt_app/model/user.dart';
+import 'package:pos_tpt_app/resources/resources.dart';
+import 'package:pos_tpt_app/utills/widget/snackbar/snackbar_widget.dart';
 import '/feature/auth/auth_controller.dart';
-// import '/model/user.dart';
 
 class SettingController extends GetxController {
   final AuthController authController = AuthController.find;
   FirebaseAuth auth = FirebaseAuth.instance;
-
-  // UserData? get user => authController.user;
-
-  // Future<void> signOut() async {
-  //   await authController.signOut();
-  // }
+  UserData? get user => authController.user;
 
   var settingTabIndex = 0;
 
@@ -28,6 +26,31 @@ class SettingController extends GetxController {
       Get.snackbar(
         "TERJADI KESALAHAN", 
         "Tidak dapat logout."
+      );
+    }
+  }
+
+  Future<void> sendPasswordResetEmail() async {
+    try {
+      await auth.sendPasswordResetEmail(
+        email: user?.email ?? "-"
+      );
+      SnackbarWidget.defaultSnackbar(
+        icon: const Icon(
+          Icons.check_circle,
+          color: AppColors.green,
+        ),
+        title: "BERHASIL",
+        subtitle: "Password reset email sent to ${user?.email ?? "-"}"
+      );
+    } catch (e) {
+      SnackbarWidget.defaultSnackbar(
+        icon: const Icon(
+          Icons.cancel,
+          color: AppColors.red,
+        ),
+        title: "Oops!",
+        subtitle: "Error sending password reset email: ${user?.email ?? "-"}"
       );
     }
   }

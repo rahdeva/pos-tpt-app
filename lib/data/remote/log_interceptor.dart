@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 // import '/data/remote/dio.dart';
 // import '/data/remote/endpoint.dart';
 // import '/feature/auth/auth_controller.dart';
-import '/model/api_error.dart';
+// import '/model/api_error.dart';
 // import '/model/login_response.dart';
 // import '/model/user.dart';
-import '/resources/resources.dart';
-import '/utills/helper/static_value_helper.dart';
-import '/utills/widget/snackbar/snackbar_widget.dart';
+// import '/resources/resources.dart';
+// import '/utills/helper/static_value_helper.dart';
+// import '/utills/widget/snackbar/snackbar_widget.dart';
 
 class APILogInterceptor extends InterceptorsWrapper {
   @override
@@ -18,22 +18,22 @@ class APILogInterceptor extends InterceptorsWrapper {
     debugPrint('<-- ${err.response?.statusCode} - ${err.requestOptions.uri}');
     debugPrint('Message: ${err.error}');
     debugPrint('<-- END HTTP');
-    APIError apiError = APIError.fromJson(err.response?.data);
-    if (err.response?.statusCode == 401) {
-      debugPrint('<-- Refresh Token');
-      // refreshToken();
-    }
-    if (err.response?.statusCode != 401) {
-      SnackbarWidget.defaultSnackbar(
-        icon: const Icon(
-          Icons.cancel,
-          color: AppColors.red,
-        ),
-        // title: "Error - ${apiError.error?.code}",
-        title: "Terjadi Kesalahan",
-        subtitle: StaticValueHelper.apiError[apiError.error?.code] ?? "Mohon ulangi lagi nanti",
-      );
-    }
+    // APIError apiError = APIError.fromJson(err.response?.data);
+    // if (err.response?.statusCode == 401) {
+    //   debugPrint('<-- Refresh Token');
+    //   // refreshToken();
+    // }
+    // if (err.response?.statusCode != 401) {
+    //   SnackbarWidget.defaultSnackbar(
+    //     icon: const Icon(
+    //       Icons.cancel,
+    //       color: AppColors.red,
+    //     ),
+    //     // title: "Error - ${apiError.error?.code}",
+    //     title: "Terjadi Kesalahan",
+    //     subtitle: StaticValueHelper.apiError[apiError.error?.code] ?? "Mohon ulangi lagi nanti",
+    //   );
+    // }
     return super.onError(err, handler);
   }
 
@@ -60,10 +60,10 @@ class APILogInterceptor extends InterceptorsWrapper {
     debugPrint(response.statusCode.toString());
     debugPrint("response.statusCode.toString()");
     // debugPrint(response.data.toString());
-    if (response.statusCode == 401) {
-      debugPrint('<-- Refresh Token');
-      // refreshToken();
-    }
+    // if (response.statusCode == 401) {
+    //   debugPrint('<-- Refresh Token');
+    //   // refreshToken();
+    // }
     return super.onResponse(response, handler);
   }
 

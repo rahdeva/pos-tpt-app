@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
 import 'package:pos_tpt_app/feature/setting/setting_controller.dart';
 import 'package:pos_tpt_app/resources/resources.dart';
@@ -127,6 +128,16 @@ class SettingPage extends StatelessWidget {
                                           margin: const EdgeInsets.all(0),
                                           padding: 8,
                                           buttonText: "Logout", 
+                                          withIcon: true,
+                                          icon: const Icon(
+                                            IconlyLight.logout,
+                                            color: AppColors.white,
+                                            size: 16,
+                                          ),
+                                          textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                            color: AppColors.white,
+                                            fontWeight: FontWeight.w600
+                                          ),
                                           onPressed: () async {
                                             controller.logout();
                                           },
@@ -163,13 +174,22 @@ class SettingPage extends StatelessWidget {
                                                           radius: 100,
                                                         ),
                                                         const SizedBox(height: 24),
-                                                        PrimaryButtonWidget(
-                                                          customColors: AppColors.primary,
-                                                          margin: const EdgeInsets.all(0),
-                                                          buttonText: "Change Profile Picture", 
-                                                          onPressed: () async {
-                                                            
-                                                          },
+                                                        SizedBox(
+                                                          width: 100.w,
+                                                          child: PrimaryButtonWidget(
+                                                            customColors: AppColors.primary,
+                                                            margin: const EdgeInsets.all(0),
+                                                            buttonText: "Change Profile Picture", 
+                                                            withIcon: true,
+                                                            padding: 12,
+                                                            textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                              color: AppColors.white,
+                                                              fontWeight: FontWeight.w600
+                                                            ),
+                                                            onPressed: () async {
+                                                              
+                                                            },
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -192,13 +212,22 @@ class SettingPage extends StatelessWidget {
                                                           ),
                                                         ),
                                                         const SizedBox(height: 24),
-                                                        PrimaryButtonWidget(
-                                                          customColors: AppColors.primary,
-                                                          margin: const EdgeInsets.all(0),
-                                                          buttonText: "Send to Email", 
-                                                          onPressed: () async {
-                                                            
-                                                          },
+                                                        SizedBox(
+                                                          width: 100.w,
+                                                          child: PrimaryButtonWidget(
+                                                            customColors: AppColors.primary,
+                                                            margin: const EdgeInsets.all(0),
+                                                            buttonText: "Send to Email", 
+                                                            withIcon: true,
+                                                            padding: 12,
+                                                            textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                              color: AppColors.white,
+                                                              fontWeight: FontWeight.w600
+                                                            ),
+                                                            onPressed: () async {
+                                                              controller.sendPasswordResetEmail();
+                                                            },
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -233,6 +262,12 @@ class SettingPage extends StatelessWidget {
                                                         customColors: AppColors.primary,
                                                         margin: const EdgeInsets.all(0),
                                                         buttonText: "Edit Profile", 
+                                                        withIcon: true,
+                                                          padding: 12,
+                                                          textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                                            color: AppColors.white,
+                                                            fontWeight: FontWeight.w600
+                                                          ),
                                                         onPressed: () async {
                                                       
                                                         },

@@ -1,10 +1,13 @@
 // ignore_for_file: unused_local_variable
 
 // import 'package:dio/dio.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:pos_tpt_app/data/remote/dio.dart';
+import 'package:pos_tpt_app/data/remote/endpoint.dart';
 // import '/data/remote/endpoint.dart';
 // import '/model/login_response.dart';
 import '/resources/resources.dart';
@@ -39,70 +42,13 @@ class LoginController extends BaseController<User> {
     super.onReady();
     await Permission.storage.request();
   }
-
-  /*
-  void signInWithEmailAndPassword(
-    String emailInput,
-    String passwordInput,
-  ) async {
-    final Dio dio = Dio(
-      BaseOptions(
-        connectTimeout: 30000,
-        receiveTimeout: 30000,
-        headers: {
-          "Content-Type": 'application/json',
-          // "sugoiiyabai": "k/WUgI/f6vxwpeu9SKdm5ddijsqA7nmkraedjUoLvN7BBVN8PIVul1sVV2Jhpj+5"
-        }
-      ),
-    );
-
-    LoginResponse? loginResponse;
-
-    try {
-      final loginData = await dio.post(
-        BaseUrl.login,
-        data: {
-          "username": emailInput,
-          "password": passwordInput,
-        }
-      );
-      debugPrint('User Info: ${loginData.data}');
-      loginResponse = LoginResponse.fromJson(loginData.data);
-      await authController.saveAuthData(
-        user: loginResponse.data!,
-        token: loginResponse.data!.accessToken ?? '',
-      );
-      authController.setAuth();
-    } on DioError catch (error) {
-      SnackbarWidget.defaultSnackbar(
-        icon: const Icon(
-          Icons.cancel,
-          color: AppColors.red,
-        ),
-        subtitle: "Username atau Password salah",
-        title: "Login Gagal!"
-      );
-      debugPrint(error.toString());
-    }
-  }
-  */
   
   void loginWithEmailAndPassword(
     String emailInput,
     String passwordInput,
   ) async {
-    // final Dio dio = Dio(
-    //   BaseOptions(
-    //     connectTimeout: 30000,
-    //     receiveTimeout: 30000,
-    //     headers: {
-    //       "Content-Type": 'application/json',
-    //       // "sugoiiyabai": "k/WUgI/f6vxwpeu9SKdm5ddijsqA7nmkraedjUoLvN7BBVN8PIVul1sVV2Jhpj+5"
-    //     }
-    //   ),
-    // );
-
-    // LoginResponse? loginResponse;
+    final dio = await AppDio().getBasicDIO();
+    UserResponse? userResponse;
 
     try {
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -114,20 +60,47 @@ class LoginController extends BaseController<User> {
         // insert data detail user API
         final userIdToken = await FirebaseAuth.instance.currentUser?.getIdToken();
 
-        await authController.saveAuthData(
-          user: UserData(
-            email: userCredential.user!.email,
-            uid: userCredential.user!.uid,
-          ),
-          token: userIdToken ?? ""
-        );
-        authController.setAuth();
+        // Cek User Data by UID
+        try{
+          final loginData = await dio.get(
+            BaseUrlLocal.userByUID(uid: userCredential.user!.uid),
+          );
+          debugPrint('User Info: ${loginData.data}');
+          userResponse = UserResponse.fromJson(loginData.data);
+          await authController.saveAuthData(
+            user: userResponse.data!.user!,
+            token: userIdToken ?? ""
+          );
+          authController.setAuth();
+        }
+        catch (e){
+          FirebaseAuth.instance.signOut();
+          Get.snackbar(
+            "Oops!", 
+            "User belum terdaftar dalam database"
+          );
+        }
       } else {
         Get.defaultDialog(
-          title: "Belum Tervefirikasi",
+          radius : 8,
+          titlePadding: const EdgeInsets.fromLTRB(24, 40, 24, 0),
+          contentPadding: const EdgeInsets.all(24),
+          titleStyle: const TextStyle(
+            fontSize: 28,
+            color: AppColors.black,
+            fontWeight: FontWeight.w600
+          ),
+          middleTextStyle: const TextStyle(
+            fontSize: 16,
+            color: AppColors.black,
+            fontWeight: FontWeight.w500
+          ),
+          backgroundColor: AppColors.white,
+          title: "Belum Terverikasi",
           middleText:
-            "Apakah kamu ingin mengirim email verifikasi kembali ? Mohon cek juga pada bagian spam",
+            "Apakah kamu ingin mengirim email verifikasi kembali ? \nMohon cek juga pada bagian spam",
           actions: [
+            const SizedBox(height: 24),
             OutlinedButton(
               onPressed: () => Get.back(),
               child: const Text("Cancel"),
@@ -138,129 +111,73 @@ class LoginController extends BaseController<User> {
                   await userCredential.user!.sendEmailVerification();
                   Get.back();
                   debugPrint("BERHASIL MENGIRIM EMAIL VERIFIKASI");
-                  Get.snackbar(
-                    "BERHASIL",
-                    "Kami telah mengirimkan email verifikasi. Buka email kamu untuk tahap verifikasi."
+                  SnackbarWidget.defaultSnackbar(
+                    icon: const Icon(
+                      Icons.check_circle,
+                      color: AppColors.green,
+                    ),
+                    title: "BERHASIL",
+                    subtitle: "Kami telah mengirimkan email verifikasi. Buka email kamu untuk tahap verifikasi."
                   );
                 } catch (e) {
                   Get.back();
-                  Get.snackbar(
-                    "Oops!",
-                    "Kamu terlalu banyak meminta kirim email verifikasi."
+                  SnackbarWidget.defaultSnackbar(
+                    icon: const Icon(
+                      Icons.cancel,
+                      color: AppColors.red,
+                    ),
+                    title: "Oops!",
+                    subtitle: "Kamu terlalu banyak meminta kirim email verifikasi."
                   );
                 }
               },
-              child: const Text("KIRIM LAGI"),
+              child: const Text(
+                "Kirim Ulang",
+                style: TextStyle(
+                  color: AppColors.white
+                ),
+              ),
             ),
+            const SizedBox(height: 40),
           ],
         );
       }
-      
-      // final loginData = await dio.post(
-      //   BaseUrl.login,
-      //   data: {
-      //     "username": emailInput,
-      //     "password": passwordInput,
-      //   }
-      // );
-      // debugPrint('User Info: ${loginData.data}');
-      // loginResponse = LoginResponse.fromJson(loginData.data);
-      // await authController.saveAuthData(
-      //   user: loginResponse.data!,
-      //   token: loginResponse.data!.accessToken ?? '',
-      // );
-      // authController.setAuth();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        Get.snackbar(
-          "Oops!", 
-          "Tidak ditemukan User dengan Email yang Anda masukkan."
+        SnackbarWidget.defaultSnackbar(
+          icon: const Icon(
+            Icons.cancel,
+            color: AppColors.red,
+          ),
+          title: "Oops!", 
+          subtitle: "Tidak ditemukan User dengan Email yang Anda masukkan."
         );
       } else if (e.code == 'wrong-password') {
-        Get.snackbar(
-          "Oops!", 
-          "Password yang Anda masukkan salah."
+        SnackbarWidget.defaultSnackbar(
+          icon: const Icon(
+            Icons.cancel,
+            color: AppColors.red,
+          ),
+          title: "Oops!", 
+          subtitle: "Password yang Anda masukkan salah."
         );
       } else if (e.code == 'invalid-email') {
-        Get.snackbar(
-          "Oops!", 
-          "Email yang Anda masukkan salah."
-        );
-      } else {
-        Get.snackbar(
-          "Oops!", 
-          e.code
-        );
-      }
-    }
-  }
-
-  void registerWithEmailAndPassword(
-    String emailInput,
-    String passwordInput,
-  ) async {
-    // final Dio dio = Dio(
-    //   BaseOptions(
-    //     connectTimeout: 30000,
-    //     receiveTimeout: 30000,
-    //     headers: {
-    //       "Content-Type": 'application/json',
-    //       // "sugoiiyabai": "k/WUgI/f6vxwpeu9SKdm5ddijsqA7nmkraedjUoLvN7BBVN8PIVul1sVV2Jhpj+5"
-    //     }
-    //   ),
-    // );
-
-    // LoginResponse? loginResponse;
-
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailInput,
-        password: passwordInput,
-      );
-
-      await userCredential.user!.sendEmailVerification();
-
-      SnackbarWidget.defaultSnackbar(
-        icon: const Icon(
-          Icons.check_circle,
-          color: AppColors.green,
-        ),
-        title: "Berhasil Registrasi!", 
-        subtitle: "Mohon cek email Anda untuk melakukan verifikasi.",
-      );
-      
-      // if (userCredential != null) {
-        // register user to API
-        // if (registeredUser == true) {
-          // Get.toNamed(PageName.LOGIN);
-          // SnackbarWidget.defaultSnackbar(
-          //   icon: const Icon(
-          //     Icons.check_circle,
-          //     color: AppColors.green,
-          //   ),
-          //   title: "Berhasil Registrasi!", 
-          //   subtitle: "Mohon cek email Anda untuk melakukan verifikasi.",
-          // );
-        // } else {
-      // }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
         SnackbarWidget.defaultSnackbar(
           icon: const Icon(
             Icons.cancel,
             color: AppColors.red,
           ),
-          title: "Password terlalu lemah!",
-          subtitle: "Mohon gunakan password yang lebih kuat.",
+          title: "Oops!", 
+          subtitle: "Email yang Anda masukkan salah."
         );
-      } else if (e.code == 'email-already-in-use') {
+      } else if (e.code == 'invalid-credential') {
         SnackbarWidget.defaultSnackbar(
           icon: const Icon(
             Icons.cancel,
             color: AppColors.red,
           ),
-          title: "Email sudah digunakan!", 
-          subtitle: "Mohon gunakan email yang lain.",
+          title: "Oops!", 
+          subtitle: "Email atau password yang Anda masukkan salah."
         );
       } else {
         SnackbarWidget.defaultSnackbar(
@@ -268,46 +185,10 @@ class LoginController extends BaseController<User> {
             Icons.cancel,
             color: AppColors.red,
           ),
-          title: "Terjadi Kesalahan!",
-          subtitle: e.toString()
+          title: "Oops!", 
+          subtitle: e.code
         );
       }
-    } catch (e) {
-      SnackbarWidget.defaultSnackbar(
-        icon: const Icon(
-          Icons.cancel,
-          color: AppColors.red,
-        ),
-        title: "Terjadi Kesalahan!",
-        subtitle: e.toString(),
-      );
     }
-
-    // try {
-      // final loginData = await dio.post(
-      //   BaseUrl.login,
-      //   data: {
-      //     "username": emailInput,
-      //     "password": passwordInput,
-      //   }
-      // );
-      // debugPrint('User Info: ${loginData.data}');
-      // loginResponse = LoginResponse.fromJson(loginData.data);
-      // await authController.saveAuthData(
-      //   user: loginResponse.data!,
-      //   token: loginResponse.data!.accessToken ?? '',
-      // );
-      // authController.setAuth();
-    // } on DioError catch (error) {
-    //   SnackbarWidget.defaultSnackbar(
-    //     icon: const Icon(
-    //       Icons.cancel,
-    //       color: AppColors.red,
-    //     ),
-    //     subtitle: "Username atau Password salah",
-    //     title: "Login Gagal!"
-    //   );
-    //   debugPrint(error.toString());
-    // }
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '/resources/resources.dart';
 import 'package:sizer/sizer.dart';
 
@@ -40,16 +39,19 @@ class PrimaryButtonWidget extends StatelessWidget {
     ? ElevatedButton.icon(
         onPressed: onPressed,
         icon: icon ?? const Icon(
-          IconlyBold.edit,
+          IconlyLight.editSquare,
           color: AppColors.white,
           size: 16,
         ),
-        label: Text(
-          buttonText,
-          style: textStyle ?? Theme.of(context).textTheme.bodySmall!.copyWith(
-            fontSize: 12,
-            color: AppColors.white,
-            fontWeight: FontWeight.w600
+        label: Padding(
+          padding: EdgeInsets.symmetric(vertical: padding ?? 0),
+          child: Text(
+            buttonText,
+            style: textStyle ?? Theme.of(context).textTheme.bodySmall!.copyWith(
+              fontSize: 12,
+              color: AppColors.white,
+              fontWeight: FontWeight.w600
+            ),
           ),
         ), //label text 
         style: ElevatedButton.styleFrom(
