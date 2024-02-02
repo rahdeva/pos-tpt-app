@@ -4,7 +4,7 @@
 class Environments {
   static const String PRODUCTION = '';
   static const String DEV = 'http://188.166.210.146:4009/jdi/api/v1';
-  static const String LOCAL = 'http://192.168.1.2:1234/api/v1';
+  static const String LOCAL = 'http://192.168.1.14:4000/api/v1';
 
   static String currentEnvironments = Environments.DEV;
 
@@ -18,10 +18,18 @@ class Environments {
 class BaseUrlLocal {
   static String baseUrlLocal = Environments.getEnvironmentsLocal();
 
-  static String barangTest = "$baseUrlLocal/barang";
+  // User
+  static String user = "$baseUrlLocal/users";
+  static String userByUID({String? uid}) 
+    => "$baseUrlLocal/users/uid/$uid";
 
-  // static String partnersPKS({int? partnerID}) 
-  //   => "$baseUrl/partners/${partnerID.toString()}/pks";
+  // Product
+  static String product = "$baseUrlLocal/products";
+
+  // Sale
+  static String sale = "$baseUrlLocal/sales";
+  static String saleDetail({int? saleID}) 
+    => "$baseUrlLocal/users/uid/$saleID";
 }
 
 class BaseUrl {

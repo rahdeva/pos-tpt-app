@@ -134,21 +134,6 @@ class LoginPage extends StatelessWidget {
                                   }
                                 },
                               ),
-                              PrimaryButtonWidget(
-                                margin:  const EdgeInsets.all(0),
-                                buttonText: "Register", 
-                                onPressed: () async {
-                                  if (
-                                    controller.formKey.currentState != null &&
-                                    controller.formKey.currentState!.saveAndValidate()
-                                  ){
-                                    controller.registerWithEmailAndPassword(
-                                      controller.formKey.currentState!.fields['email']!.value,
-                                      controller.formKey.currentState!.fields['password']!.value,
-                                    );
-                                  }
-                                },
-                              ),
                             ],
                           ),
                         ),

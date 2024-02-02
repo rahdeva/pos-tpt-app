@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pos_tpt_app/feature/bottom_nav_bar/widgets/side_menu.dart';
+import 'package:pos_tpt_app/feature/main/widgets/side_menu.dart';
 import 'package:pos_tpt_app/feature/history/history_page.dart';
 import 'package:pos_tpt_app/utills/helper/responsive.dart';
 import '/feature/home/home_page.dart';
@@ -25,7 +25,7 @@ class MainPage extends StatelessWidget {
                 if (Responsive.isDesktop(context))
                   Expanded(
                     child: SideMenu(
-                      controller: controller
+                      controller: controller,
                     ),
                   ),
                 Expanded(

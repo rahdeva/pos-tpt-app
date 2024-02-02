@@ -4,13 +4,26 @@ import '/resources/resources.dart';
 class AppTheme {
   static ThemeData buildThemeData(bool darkMode, BuildContext context) {
     return ThemeData(
-      primaryColor: AppColors.primary,
-      brightness: Brightness.light,
-      scaffoldBackgroundColor: AppColors.background1,
+      // brightness: Brightness.dark,
+      canvasColor: AppColors.red,
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
-      appBarTheme: lightAppBar(),
+      appBarTheme: (darkMode) ? darkAppBar() : lightAppBar(),
       fontFamily: 'DMSans',
+      primaryColor: AppColors.primary,
+      scaffoldBackgroundColor: (darkMode) 
+        ? AppColors.background1
+        : AppColors.white,
+      inputDecorationTheme: inputDecoration(darkMode, context), 
+      colorScheme: ThemeData().colorScheme.copyWith(
+        primary: AppColors.primary,
+        secondary: AppColors.colorSecondary,
+      ).copyWith(
+        background: (darkMode) ? AppColors.black : AppColors.white
+      ),
+      scrollbarTheme: const ScrollbarThemeData().copyWith(
+        thumbColor: MaterialStateProperty.all(AppColors.white),
+      ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -22,69 +35,74 @@ class AppTheme {
           (states) => AppColors.primary
         ),
       ),
-      bottomNavigationBarTheme: lightNavigation(),
+      cardTheme: CardTheme(
+        color: AppColors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8)
+        ),
+        surfaceTintColor: AppColors.white,
+        clipBehavior: Clip.hardEdge,
+        elevation: 0,
+      ),
+      bottomNavigationBarTheme: (darkMode) 
+        ? darkNavigation() 
+        : lightNavigation(),
       textTheme: const TextTheme(
         displayLarge: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.w600,
-          color: AppColors.white,
+          color: AppColors.black,
         ),
         displayMedium: TextStyle(
           fontSize: 22,
           fontWeight: FontWeight.w600,
-          color: AppColors.white,
+          color: AppColors.black,
         ),
         displaySmall: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          color: AppColors.white,
+          color: AppColors.black,
         ),
         headlineMedium: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
-          color: AppColors.white,
+          color: AppColors.black,
         ),
         headlineSmall: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
-          color: AppColors.white,
+          color: AppColors.black,
         ),
         titleLarge: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
-          color: AppColors.white,
+          color: AppColors.black,
         ),
         bodyLarge: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500,
-          color: AppColors.white,
+          color: AppColors.black,
         ),
         bodyMedium: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w500,
-          color: AppColors.white,
+          color: AppColors.black,
         ),
         titleMedium: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w500,
-          color: AppColors.white,
+          color: AppColors.black,
         ),
         titleSmall: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w500,
-          color: AppColors.white,
+          color: AppColors.black,
         ),
         bodySmall: TextStyle(
           fontSize: 8,
           fontWeight: FontWeight.w500,
-          color: AppColors.white,
+          color: AppColors.black,
         ),
-      ),
-      inputDecorationTheme: inputDecoration(darkMode, context), 
-      colorScheme: ThemeData().colorScheme.copyWith(
-        primary: AppColors.primary,
-      ).copyWith(
-        background: (darkMode) ? AppColors.black : AppColors.white
       ),
     );
   }

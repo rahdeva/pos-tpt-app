@@ -42,7 +42,7 @@ class NotificationController extends GetxController {
 
     try {
       final notifiationRequest = await dio.get(
-        BaseUrlLocal.barangTest
+        BaseUrlLocal.product
       );
       debugPrint('Notification: ${notifiationRequest.data}');
       notificationResponse = BarangResponse.fromJson(notifiationRequest.data);

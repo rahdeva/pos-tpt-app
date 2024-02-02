@@ -23,6 +23,7 @@ dependencies:
   flutter_localization: ^0.1.12
   flutter_native_splash: ^2.2.19
   flutter_secure_storage: ^8.0.0
+  font_awesome_flutter: ^10.7.0
   form_builder_validators: ^9.0.0
   freezed: ^2.3.2
   get: ^4.6.5

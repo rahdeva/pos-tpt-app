@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:pos_tpt_app/feature/bottom_nav_bar/main_binding.dart';
-import 'package:pos_tpt_app/feature/bottom_nav_bar/main_page.dart';
+import 'package:pos_tpt_app/feature/main/main_binding.dart';
+import 'package:pos_tpt_app/feature/main/main_page.dart';
 import 'package:pos_tpt_app/feature/history/history_page.dart';
 import 'package:pos_tpt_app/feature/home/home_page.dart';
 import 'package:pos_tpt_app/feature/setting/setting_page.dart';

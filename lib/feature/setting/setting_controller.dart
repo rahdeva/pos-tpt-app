@@ -13,6 +13,13 @@ class SettingController extends GetxController {
   //   await authController.signOut();
   // }
 
+  var settingTabIndex = 0;
+
+  void changeTabIndex(int index) {
+    settingTabIndex = index;
+    update();
+  }
+
   Future<void> logout() async {
     try {
       await auth.signOut();
