@@ -1,15 +1,11 @@
 // ignore_for_file: unused_local_variable
 
-// import 'package:dio/dio.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:pos_tpt_app/data/remote/dio.dart';
 import 'package:pos_tpt_app/data/remote/endpoint.dart';
-// import '/data/remote/endpoint.dart';
-// import '/model/login_response.dart';
 import '/resources/resources.dart';
 import '/utills/widget/snackbar/snackbar_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -75,9 +71,13 @@ class LoginController extends BaseController<User> {
         }
         catch (e){
           FirebaseAuth.instance.signOut();
-          Get.snackbar(
-            "Oops!", 
-            "User belum terdaftar dalam database"
+          SnackbarWidget.defaultSnackbar(
+            icon: const Icon(
+              Icons.cancel,
+              color: AppColors.red,
+            ),
+            title: "Oops!",
+            subtitle: "User belum terdaftar dalam database"
           );
         }
       } else {

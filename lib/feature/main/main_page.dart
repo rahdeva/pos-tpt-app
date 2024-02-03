@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pos_tpt_app/feature/main/widgets/side_menu.dart';
-import 'package:pos_tpt_app/feature/history/history_page.dart';
 import 'package:pos_tpt_app/utills/helper/responsive.dart';
-import '/feature/home/home_page.dart';
-import '../setting/setting_page.dart';
 
 import 'main_controller.dart';
 
@@ -24,19 +21,24 @@ class MainPage extends StatelessWidget {
               children: [
                 if (Responsive.isDesktop(context))
                   Expanded(
-                    child: SideMenu(
-                      controller: controller,
+                    child: GetBuilder(
+                      id: 'side-menu',
+                      init: controller,
+                      builder: (_) {
+                        return SideMenu(
+                          controller: controller,
+                        );
+                      }
                     ),
                   ),
                 Expanded(
                   flex: 7,
-                  child: IndexedStack(
-                    index: controller.tabIndex,
-                    children: const [
-                      HomePage(),
-                      HistoryPage(),
-                      SettingPage(),
-                    ],
+                  child: GetBuilder(
+                    id: 'content',
+                    init: controller,
+                    builder: (_) {
+                      return controller.pageView[controller.tabIndex];
+                    }
                   ),
                 ),
               ],

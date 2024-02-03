@@ -7,5 +7,4 @@ class PageName {
   static const HOME = "/home";
   static const HISTORY = "/history";
   static const SETTING = "/setting";
-  // static const NOTIFICATION = "/notification"; 
 }

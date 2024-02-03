@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:pos_tpt_app/feature/main/main_controller.dart';
@@ -32,13 +33,31 @@ class SideMenu extends StatelessWidget {
             ),
             child: Row(
               children: [
-                CircleAvatar(
-                  // child: ,
-                ),
-                const SizedBox(width: 16),
-                const Text(
-                  "Ngurah Deva",
-                  style:const TextStyle(color: Colors.white),
+                CachedNetworkImage(
+                    imageUrl: controller.user?.profilePicture != ""
+                      ? controller.user!.profilePicture!
+                      : "https://ui-avatars.com/api/?size=120&name=${controller.user?.name ?? "User"}",
+                    imageBuilder: (context, imageProvider) => CircleAvatar(
+                      radius: 20,
+                      backgroundImage: imageProvider,
+                    ),
+                    placeholder: (context, url) => const CircleAvatar(
+                      radius: 20,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => CircleAvatar(
+                      radius: 20,
+                      backgroundImage: NetworkImage(
+                        "https://ui-avatars.com/api/?size=120&name=${controller.user?.name ?? "User"}"
+                      ),
+                    ),
+                  ),
+                const SizedBox(width: 8),
+                Text(
+                  controller.user?.name ?? "User",
+                  style: const TextStyle(color: Colors.white),
                 ),
               ],
             ),

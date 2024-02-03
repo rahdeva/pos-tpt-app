@@ -2,6 +2,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:pos_tpt_app/routes/page_routes.dart';
+import 'package:pos_tpt_app/utills/helper/utils.dart';
 import 'data/local/storage/storage_constants.dart';
 import 'feature/auth/auth_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,6 +21,7 @@ class Initializer {
         return const FlutterSecureStorage();
       });
       Get.put<AuthController>(AuthController());
+      Utils.initializedSideMenu(bindings: PageRoutes.sideMenuBindings);
     } catch (err) {
       rethrow;
     }

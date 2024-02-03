@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
@@ -170,8 +171,26 @@ class SettingPage extends StatelessWidget {
                                                     padding: const EdgeInsets.all(24),
                                                     child: Column(
                                                       children: [
-                                                        const CircleAvatar(
-                                                          radius: 100,
+                                                        CachedNetworkImage(
+                                                          imageUrl: controller.user?.profilePicture != ""
+                                                            ? controller.user!.profilePicture!
+                                                            : "https://ui-avatars.com/api/?size=120&name=${controller.user?.name ?? "User"}",
+                                                          imageBuilder: (context, imageProvider) => CircleAvatar(
+                                                            radius: 100,
+                                                            backgroundImage: imageProvider,
+                                                          ),
+                                                          placeholder: (context, url) => const CircleAvatar(
+                                                            radius: 100,
+                                                            child: Center(
+                                                              child: CircularProgressIndicator(),
+                                                            ),
+                                                          ),
+                                                          errorWidget: (context, url, error) => CircleAvatar(
+                                                            radius: 100,
+                                                            backgroundImage: NetworkImage(
+                                                              "https://ui-avatars.com/api/?size=120&name=${controller.user?.name ?? "User"}"
+                                                            ),
+                                                          ),
                                                         ),
                                                         const SizedBox(height: 24),
                                                         SizedBox(
@@ -204,7 +223,7 @@ class SettingPage extends StatelessWidget {
                                                     child: Column(
                                                       children: [
                                                         Text(
-                                                          "Change Password",
+                                                          "Reset Password",
                                                           textAlign: TextAlign.left,
                                                           style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                                                             color: AppColors.white,
