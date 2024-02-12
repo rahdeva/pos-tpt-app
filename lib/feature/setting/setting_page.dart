@@ -1,4 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:pos_tpt_app/feature/setting/widgets/edit_profile_widget.dart';
+import 'package:pos_tpt_app/feature/setting/widgets/profile_picture_reset_password_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:get/get.dart';
@@ -19,7 +20,7 @@ class SettingPage extends StatelessWidget {
           child: Container(
             width: 100.w,
             height: 100.h,
-            margin: const EdgeInsets.fromLTRB(24, 40, 0, 0),
+            margin: const EdgeInsets.fromLTRB(24, 24, 0, 0),
             decoration: const BoxDecoration(
               color: AppColors.background2,
               borderRadius: BorderRadius.only(
@@ -46,7 +47,7 @@ class SettingPage extends StatelessWidget {
                     children: [
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
-                        height: 100.h-40,
+                        height: 100.h-24,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -88,6 +89,7 @@ class SettingPage extends StatelessWidget {
                                               buttonText: "Profile", 
                                               onPressed: () async {
                                                 controller.changeTabIndex(0);
+                                                controller.refreshPage();
                                               },
                                               textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
                                                 color: controller.settingTabIndex == 0
@@ -152,149 +154,20 @@ class SettingPage extends StatelessWidget {
                                   child: controller.settingTabIndex == 0
                                     ? Container(
                                         width: 80.w,
-                                        height: 80.h-3,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(20),
                                           color: AppColors.background1
                                         ),
                                         padding: const EdgeInsets.all(40),
                                         child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
-                                            Expanded(
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(20),
-                                                      border: Border.all(color: AppColors.white)
-                                                    ),
-                                                    padding: const EdgeInsets.all(24),
-                                                    child: Column(
-                                                      children: [
-                                                        CachedNetworkImage(
-                                                          imageUrl: controller.user?.profilePicture != ""
-                                                            ? controller.user!.profilePicture!
-                                                            : "https://ui-avatars.com/api/?size=120&name=${controller.user?.name ?? "User"}",
-                                                          imageBuilder: (context, imageProvider) => CircleAvatar(
-                                                            radius: 100,
-                                                            backgroundImage: imageProvider,
-                                                          ),
-                                                          placeholder: (context, url) => const CircleAvatar(
-                                                            radius: 100,
-                                                            child: Center(
-                                                              child: CircularProgressIndicator(),
-                                                            ),
-                                                          ),
-                                                          errorWidget: (context, url, error) => CircleAvatar(
-                                                            radius: 100,
-                                                            backgroundImage: NetworkImage(
-                                                              "https://ui-avatars.com/api/?size=120&name=${controller.user?.name ?? "User"}"
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(height: 24),
-                                                        SizedBox(
-                                                          width: 100.w,
-                                                          child: PrimaryButtonWidget(
-                                                            customColors: AppColors.primary,
-                                                            margin: const EdgeInsets.all(0),
-                                                            buttonText: "Change Profile Picture", 
-                                                            withIcon: true,
-                                                            padding: 12,
-                                                            textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                              color: AppColors.white,
-                                                              fontWeight: FontWeight.w600
-                                                            ),
-                                                            onPressed: () async {
-                                                              
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  const SizedBox(height: 24),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(20),
-                                                      border: Border.all(color: AppColors.white)
-                                                    ),
-                                                    padding: const EdgeInsets.all(24),
-                                                    child: Column(
-                                                      children: [
-                                                        Text(
-                                                          "Reset Password",
-                                                          textAlign: TextAlign.left,
-                                                          style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                                            color: AppColors.white,
-                                                            fontWeight: FontWeight.w700
-                                                          ),
-                                                        ),
-                                                        const SizedBox(height: 24),
-                                                        SizedBox(
-                                                          width: 100.w,
-                                                          child: PrimaryButtonWidget(
-                                                            customColors: AppColors.primary,
-                                                            margin: const EdgeInsets.all(0),
-                                                            buttonText: "Send to Email", 
-                                                            withIcon: true,
-                                                            padding: 12,
-                                                            textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                              color: AppColors.white,
-                                                              fontWeight: FontWeight.w600
-                                                            ),
-                                                            onPressed: () async {
-                                                              controller.sendPasswordResetEmail();
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                            ProfilePictureResetPasswordWidget(
+                                              controller: controller,
                                             ),
                                             const SizedBox(width: 24),
-                                            Expanded(
-                                              flex: 2,
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(20),
-                                                  border: Border.all(color: AppColors.white)
-                                                ),
-                                                padding: const EdgeInsets.all(24),
-                                                child: Column(
-                                                  children: [
-                                                    Text(
-                                                      "Edit Profile",
-                                                      textAlign: TextAlign.left,
-                                                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                                        color: AppColors.white,
-                                                        fontWeight: FontWeight.w700
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 24),
-                                                    Align(
-                                                      alignment: Alignment.bottomRight,
-                                                      child: PrimaryButtonWidget(
-                                                        width: 12.w,
-                                                        customColors: AppColors.primary,
-                                                        margin: const EdgeInsets.all(0),
-                                                        buttonText: "Edit Profile", 
-                                                        withIcon: true,
-                                                          padding: 12,
-                                                          textStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                                            color: AppColors.white,
-                                                            fontWeight: FontWeight.w600
-                                                          ),
-                                                        onPressed: () async {
-                                                      
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
+                                            EditProfileWidget(
+                                              controller: controller,
                                             ),
                                           ],
                                         ),

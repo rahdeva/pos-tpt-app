@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:pos_tpt_app/feature/history/history_controller.dart';
+import 'package:pos_tpt_app/feature/history/widgets/view_report_sale_detail.dart';
 import 'package:pos_tpt_app/model/sale.dart';
 import 'package:pos_tpt_app/resources/resources.dart';
 import 'package:pos_tpt_app/utills/widget/button/primary_button.dart';
@@ -77,18 +78,9 @@ class SalesHistoryDataSource extends DataTableSource {
             margin: const EdgeInsets.all(8),
             child: Row(
               children: [
-                PrimaryButtonWidget(
-                  width: 5.w,
-                  customColors: AppColors.blue,
-                  margin: const EdgeInsets.all(0),
-                  buttonText: "View", 
-                  withIcon: true,
-                  icon: const FaIcon(
-                    FontAwesomeIcons.eye,
-                    color: AppColors.white,
-                    size: 16,
-                  ), 
-                  onPressed: () {},
+                ViewSaleHistoryDetailButton(
+                  sale: item,
+                  controller: controller
                 ),
                 const SizedBox(width: 12),
                 PrimaryButtonWidget(

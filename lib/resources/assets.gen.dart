@@ -72,12 +72,18 @@ class $LibResourcesImagesGen {
   AssetGenImage get imgError =>
       const AssetGenImage('lib/resources/images/img_error.png');
 
+  /// File path: lib/resources/images/lottie_failed.json
+  String get lottieFailed => 'lib/resources/images/lottie_failed.json';
+
+  /// File path: lib/resources/images/lottie_success.json
+  String get lottieSuccess => 'lib/resources/images/lottie_success.json';
+
   /// File path: lib/resources/images/user_placeholder.png
   AssetGenImage get userPlaceholder =>
       const AssetGenImage('lib/resources/images/user_placeholder.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [
+  List<dynamic> get values => [
         bgLogin,
         emptyStateCode,
         icActivityActive,
@@ -90,6 +96,8 @@ class $LibResourcesImagesGen {
         icProfileUnactive,
         imgEmpty,
         imgError,
+        lottieFailed,
+        lottieSuccess,
         userPlaceholder
       ];
 }
